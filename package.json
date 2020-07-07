@@ -1,0 +1,28 @@
+{
+  "name": "accounting-app-google-apps-script",
+  "version": "1.0.0",
+  "description": "Simple google apps script for personal accounting",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugudo/Accounting-APP-Google-Apps-Script.git"
+  },
+  "keywords": [
+    "accounting",
+    "google",
+    "apps",
+    "script"
+  ],
+  "author": "Yevhen Udovychenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eugudo/Accounting-APP-Google-Apps-Script/issues"
+  },
+  "homepage": "https://github.com/eugudo/Accounting-APP-Google-Apps-Script#readme",
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.14"
+  }
+}
