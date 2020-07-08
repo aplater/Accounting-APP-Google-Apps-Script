@@ -1,3 +1,62 @@
 <script>
+  const REG_BTN = document.getElementById('registerBtn');
+
+  REG_BTN.addEventListener('click', processRegister);
+
+  function processRegister() {
+    const REG_EMAIL = document.getElementById('registrationEmail');
+    const REG_PWD = document.getElementById('registrationPassword');
+    const REG_PWD_REPEAT = document.getElementById('registrationPasswordRepeated');
+    const ERR_EMAIL = document.getElementById('invalidRegEmail');
+    const ERR_PWD = document.getElementById('invalidRegPassword');
+    const ERR_PWD_REPEAT = document.getElementById('invalidRegPasswordRepeated');
+
+    let isCorrectUserData = true;
+
+    // email input validation
+    if (REG_EMAIL.value === '') {
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Field cannot be empty');
+      isCorrectUserData = false;
+    } else if (!validateEmail(REG_EMAIL.value)) {
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Please, enter a correct email address');
+      isCorrectUserData = false;
+    } else {
+      showMessage(true, REG_EMAIL, ERR_EMAIL);
+    }
+
+    if (REG_PWD.value !== REG_PWD_REPEAT.value) {
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Password confirmation does not match');
+      isCorrectUserData = false;
+    } else if (REG_PWD.value === '') {
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Password confirmation does not match');
+      isCorrectUserData = false;
+    } else {
+      showMessage(true, REG_PWD_REPEAT, ERR_PWD_REPEAT);
+    }
+
+    if (isCorrectUserData) {
+      runRegisterProcess(REG_EMAIL.value, REG_PWD.value);
+    }
+
+  }
+
+
+  function showMessage(isCorrect, elem, textField, message) {
+    if (isCorrect) {
+      elem.classList.toggle('is-valid');
+      elem.classList.remove('is-invalid');
+      return
+    }
+    elem.classList.toggle('is-invalid');
+    elem.classList.remove('is-valid');
+    textField.innerText = message;
+  }
+
+
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
 
 </script>

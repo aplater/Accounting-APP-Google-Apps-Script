@@ -1,0 +1,22 @@
+<script>
+
+    function runRegisterProcess(email, password) {
+        google.script.run
+        .withSuccessHandler(showConfirmationField)
+        .withFailureHandler(showConfirmationField)
+        .startRegisterProcess(email, password);
+    }
+
+
+
+    function showConfirmationField(responseObject) {
+        if (responseObject.success) {
+            // let modalBody = document.getElementById('modalBody');
+            // modalBody.innerHTML = '';
+        console.log('response')
+            
+        }
+        console.log('no response')
+    }
+
+</script>
