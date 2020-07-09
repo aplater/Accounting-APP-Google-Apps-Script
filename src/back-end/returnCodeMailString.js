@@ -174,8 +174,8 @@ function returnCodeMailString(code) {
     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px; padding-left: 30px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
     <div style="color:#555555;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;line-height:1.2;padding-top:10px;padding-right:30px;padding-bottom:10px;padding-left:30px;">
     <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; mso-line-height-alt: 14px;">
-    <p style="font-size: 30px; line-height: 1.2; word-break: break-word; text-align: center; mso-line-height-alt: 36px; margin: 0;"><span style="color: #ffffff; font-size: 30px;"><strong><span style="font-size: 26px;">ACCOUNTING APP</span><br/></strong></span></p>
-    <p style="font-size: 24px; line-height: 1.2; word-break: break-word; text-align: center; mso-line-height-alt: 29px; margin: 0;"><span style="font-size: 24px; color: #ffdd15;"><em>YOUR CONFIRMATION CODE IS: </em></span></p>
+    <p style="font-size: 30px; line-height: 1.2; word-break: break-word; text-align: center; mso-line-height-alt: 36px; margin: 0;"><span style="color: #ffffff; font-size: 30px;"><strong><span style="font-size: 26px;">СЧЕТОВОД</span><br/></strong></span></p>
+    <p style="font-size: 24px; line-height: 1.2; word-break: break-word; text-align: center; mso-line-height-alt: 29px; margin: 0;"><span style="font-size: 24px; color: #ffdd15;"><em>ВАШ КОД ПОДТВЕРЖДЕНИЯ:</em></span></p>
     </div>
     </div>
     <!--[if mso]></td></tr></table><![endif]-->

@@ -24,13 +24,30 @@ function doGet(e) {
 
 function startRegisterProcess(email, password) {
   try {
-    return {success: true} // убрать потом
     let confirmationCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    REGISTER_PROCESSOR.saveUserData(email, password, confirmationCode);
+    PropertiesService.getScriptProperties().setProperty('confirmationCode', confirmationCode);
+    PropertiesService.getScriptProperties().setProperty('newUserEmail', confirmationCode);
+    PropertiesService.getScriptProperties().setProperty('newUserPassword', confirmationCode);
     MAIL_SENDER.sendCode(email, confirmationCode);
     return {success: true}
   } catch (e) {
     MAIL_SENDER.sendError(e);
     return {success: false}
   }
+}
+
+
+function checkConfirmCode(confirmationCode) {
+  let scriptConfirmCode = PropertiesService.getScriptProperties().getProperty('confirmationCode')
+  let code = confirmationCode.trim();
+  if(code == scriptConfirmCode) {
+    PropertiesService.getScriptProperties().deleteProperty('confirmationCode');
+    return {success: true}
+  }
+  return {success: false}
+}
+
+
+function createNewEnvironment() {
+  ENVIRONMENT_PROCESSOR.createNewEnvironment();
 }

@@ -1,26 +1,54 @@
 <script>
 
-    function runRegisterProcess(email, password) {
-        google.script.run
-        .withSuccessHandler(showConfirmationField)
-        .withFailureHandler(showConfirmationField)
-        .startRegisterProcess(email, password);
+  function runRegisterProcess(email, password) {
+    google.script.run
+      .withSuccessHandler(showConfirmationField)
+      .withFailureHandler(showConfirmationField)
+      .startRegisterProcess(email, password);
+  }
+
+
+
+  function showConfirmationField(responseObject) {
+    if (!responseObject.success) {
+      // let modalBody = document.getElementById('modalBody');
+      // modalBody.innerHTML = '';
+      console.log('response')
+      return
     }
+    let regForm = document.getElementById('registrationForm');
+    let confirmForm = document.getElementById('confirmCodeForm');
+    regForm.classList.toggle('hidden');
+    confirmForm.classList.toggle('hidden');
+  }
 
+  // confirmation part
+  const CONFIRM_BTN = document.getElementById('confirmCodeBtn');
+  CONFIRM_BTN.addEventListener('click', processConfirmation);
 
+  function processConfirmation() {
+    let confirmCodeForm = document.getElementById('confirmCodeForm');
+    let spinner = document.getElementById('confirmSpinner');
+    confirmCodeForm.classList.toggle('hidden');
+    spinner.classList.toggle('hidden');
+    let confirmCode = document.getElementById('confirmCodeInput').value;
+    google.script.run.withSuccessHandler(finishRegister).checkConfirmCode(confirmCode);
+  }
 
-    function showConfirmationField(responseObject) {
-        if (!responseObject.success) {
-            // let modalBody = document.getElementById('modalBody');
-            // modalBody.innerHTML = '';
-        console.log('response')
-            return
-        }
-        let regForm = document.getElementById('registrationForm');
-        let confirmForm = document.getElementById('confirmCodeForm');
-        regForm.classList.toggle('hidden');
-        confirmForm.classList.toggle('hidden');
+  function finishRegister(response) {
 
+    if (!response.success) {
+      document.getElementById('confirmCodeForm').classList.toggle('hidden');
+      document.getElementById('confirmCodeInput').classList.toggle('is-invalid');
+      document.getElementById('confirmSpinner').classList.toggle('hidden');
+      return
     }
+    document.getElementById('successTitle').classList.toggle('hidden');
+    google.script.run.withSuccessHandler(redirectToHomePage).createNewEnvironment();
+
+    
+  }
+
+
 
 </script>

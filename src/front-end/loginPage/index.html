@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Accounting APP</title>
+    <title>Счетовод</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <?!= include("src/front-end/loginPage/styles"); ?>
@@ -18,7 +18,7 @@
                 <a class="navbar-brand navbar__brand" href="#">
                     <img src="https://i.ibb.co/vYynk9x/Accounting-logo.png" alt="Accounting-logo" class="navbar__logo"
                         loading="lazy">
-                    <h1 class="navbar__title">Accounting APP</h1>
+                    <h1 class="navbar__title">Счетовод</h1>
                 </a>
             </nav>
         </header>
@@ -26,19 +26,18 @@
         <main class="row d-flex justify-content-center">
 
             <form class="col-sm-5 col-md-5 col-lg-3">
-                <h3 class="loginForm__title">Login</h3>
+                <h3 class="loginForm__title">Вход</h3>
                 <div class="mb-3">
                     <input type="email" class="form-control loginForm__input" id="exampleInputEmail1"
                         aria-describedby="emailHelp" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
                     <input type="password" class="form-control loginForm__input" id="exampleInputPassword1"
-                        placeholder="Password" required>
+                        placeholder="Пароль" required>
                 </div>
-                <button type="button" class="btn btn-primary loginForm__submitButton">Let me in.</button>
-                <p class="loginForm__registration">Not registered? <a href="#" id="registerAccountLink"
-                        data-toggle="modal" data-target="#registerPopup">Create an
-                        account</a></p>
+                <button type="button" class="btn btn-primary loginForm__submitButton">Войти в кабинет</button>
+                <p class="loginForm__registration">Нужна регистрация? <a href="#" id="registerAccountLink"
+                        data-toggle="modal" data-target="#registerPopup">Создать аккаунт</a></p>
             </form>
         </main>
 

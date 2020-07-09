@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Registration</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Регистрация</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,38 +13,48 @@
                     <div class="mb-3 row">
                         <label for="registrationEmail" class="col-sm-4 col-form-label">Email</label>
                         <div class="col-sm-8">
-                            <input type="email" class="form-control" id="registrationEmail" placeholder="email@example.com">
-                            <div class="valid-feedback">Looks good!</div>
+                            <input type="email" class="form-control" id="registrationEmail"
+                                placeholder="email@example.com">
+                            <div class="valid-feedback">Отлично!</div>
                             <div class="invalid-feedback" id="invalidRegEmail"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="registrationPassword" class="col-sm-4 col-form-label">Password</label>
+                        <label for="registrationPassword" class="col-sm-4 col-form-label">Пароль</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" id="registrationPassword"
-                                placeholder="..." minlength="4" maxlength="8" size="8">
+                            <input type="password" class="form-control" id="registrationPassword" placeholder="..."
+                                minlength="4" maxlength="8" size="8">
                             <div class="invalid-feedback" id="invalidRegPassword"></div>
                         </div>
                     </div>
                     <div class="mb-3 row regPasswordRepeatedInput">
-                        <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Repeat password</label>
+                        <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Повторите пароль</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" id="registrationPasswordRepeated" placeholder="..." minlength="4" maxlength="8" size="8">
+                            <input type="password" class="form-control" id="registrationPasswordRepeated"
+                                placeholder="..." minlength="4" maxlength="8" size="8">
                             <div class="invalid-feedback" id="invalidRegPasswordRepeated"></div>
-                            <div class="valid-feedback">Looks good!</div>
+                            <div class="valid-feedback">Отлично!</div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" id="submitRegBtn">Submit</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="submitRegBtn">Проверить</button>
                 </div>
 
                 <div id="confirmCodeForm" class="hidden">
-                    <h1>Some text here</h1>
+                    <div class="mb-3">
+                        <label for="confirmCodeInput" class="form-label">На почту отправлен код подтверждения. Введите его тут:</label>
+                        <input type="password" class="form-control" id="confirmCodeInput" placeholder="">
+                        <div class="invalid-feedback">Неправильный код. Попробуйте снова.</div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="confirmCodeBtn">Отправить</button>
                 </div>
-
+                <div class="d-block mx-auto spinner-border text-primary mb-3 hidden" role="status" id="confirmSpinner">
+                    <span class="sr-only">Проверка...</span>
+                </div>
+                <h4 id='successTitle' class='hidden'>Код подтвержден. Перенаправление в личный кабинет...</h4>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

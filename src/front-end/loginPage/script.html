@@ -15,20 +15,20 @@
 
     // email input validation
     if (REG_EMAIL.value === '') {
-      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Field cannot be empty');
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Поле не может быть пустым');
       isCorrectUserData = false;
     } else if (!validateEmail(REG_EMAIL.value)) {
-      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Please, enter a correct email address');
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Пожалуйста, введите правильный email адрес');
       isCorrectUserData = false;
     } else {
       showMessage(true, REG_EMAIL, ERR_EMAIL);
     }
 
     if (REG_PWD.value !== REG_PWD_REPEAT.value) {
-      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Password confirmation does not match');
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
       isCorrectUserData = false;
     } else if (REG_PWD.value === '') {
-      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Password confirmation does not match');
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
       isCorrectUserData = false;
     } else {
       showMessage(true, REG_PWD_REPEAT, ERR_PWD_REPEAT);
