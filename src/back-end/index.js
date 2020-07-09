@@ -24,6 +24,7 @@ function doGet(e) {
 
 function startRegisterProcess(email, password) {
   try {
+    return {success: true} // убрать потом
     let confirmationCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     REGISTER_PROCESSOR.saveUserData(email, password, confirmationCode);
     MAIL_SENDER.sendCode(email, confirmationCode);

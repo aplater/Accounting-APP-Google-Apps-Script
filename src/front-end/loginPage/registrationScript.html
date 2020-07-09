@@ -10,13 +10,17 @@
 
 
     function showConfirmationField(responseObject) {
-        if (responseObject.success) {
+        if (!responseObject.success) {
             // let modalBody = document.getElementById('modalBody');
             // modalBody.innerHTML = '';
         console.log('response')
-            
+            return
         }
-        console.log('no response')
+        let regForm = document.getElementById('registrationForm');
+        let confirmForm = document.getElementById('confirmCodeForm');
+        regForm.classList.toggle('hidden');
+        confirmForm.classList.toggle('hidden');
+
     }
 
 </script>

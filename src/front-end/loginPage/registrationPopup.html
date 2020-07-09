@@ -9,39 +9,42 @@
                 </button>
             </div>
             <div class="modal-body" id="modalBody">
-
-
-
-                <div class="mb-3 row">
-                    <label for="registrationEmail" class="col-sm-4 col-form-label">Email</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="registrationEmail" placeholder="email@example.com">
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback" id="invalidRegEmail"></div>
+                <div id="registrationForm">
+                    <div class="mb-3 row">
+                        <label for="registrationEmail" class="col-sm-4 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="registrationEmail" placeholder="email@example.com">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback" id="invalidRegEmail"></div>
+                        </div>
                     </div>
+                    <div class="mb-3 row">
+                        <label for="registrationPassword" class="col-sm-4 col-form-label">Password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="registrationPassword"
+                                placeholder="..." minlength="4" maxlength="8" size="8">
+                            <div class="invalid-feedback" id="invalidRegPassword"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row regPasswordRepeatedInput">
+                        <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Repeat password</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="registrationPasswordRepeated" placeholder="..." minlength="4" maxlength="8" size="8">
+                            <div class="invalid-feedback" id="invalidRegPasswordRepeated"></div>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="submitRegBtn">Submit</button>
                 </div>
-                <div class="mb-3 row">
-                    <label for="registrationPassword" class="col-sm-4 col-form-label">Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="registrationPassword"
-                            placeholder="..." minlength="4" maxlength="8" size="8">
-                        <div class="invalid-feedback" id="invalidRegPassword"></div>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Repeat password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="registrationPasswordRepeated" placeholder="..." minlength="4" maxlength="8" size="8">
-                        <div class="invalid-feedback" id="invalidRegPasswordRepeated"></div>
-                        <div class="valid-feedback">Looks good!</div>
-                    </div>
+
+                <div id="confirmCodeForm" class="hidden">
+                    <h1>Some text here</h1>
                 </div>
 
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="registerBtn">Register!</button>
             </div>
         </div>
     </div>
