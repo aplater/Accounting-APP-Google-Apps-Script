@@ -2,7 +2,7 @@
 
 const MAIL_SENDER = {
   sendCode: function (email, confirmationCode) {
-    let subject = "Accounting APP - confirmation code";
+    let subject = "no-reply: Accounting APP - confirmation code";
     let body = '';
     let hBody = returnCodeMailString(confirmationCode);
     GmailApp.sendEmail(email, subject, body, {htmlBody: hBody});

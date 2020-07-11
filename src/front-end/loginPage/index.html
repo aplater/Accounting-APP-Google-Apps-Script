@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Счетовод</title>
+    <!-- подключение bootstrap 5 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
         integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <!-- стили страницы логина -->
     <?!= include("src/front-end/loginPage/styles"); ?>
 </head>
 
@@ -13,6 +15,7 @@
 
     <div class="container-fluid">
 
+        <!-- иконка и название сайта - header -->
         <header class="row">
             <nav class="navbar col-12">
                 <a class="navbar-brand navbar__brand" href="#">
@@ -23,6 +26,8 @@
             </nav>
         </header>
 
+
+        <!-- форма логина и пароля -->
         <main class="row d-flex justify-content-center">
 
             <form class="col-sm-5 col-md-5 col-lg-3">
@@ -41,18 +46,23 @@
             </form>
         </main>
 
+
+
     </div>
-
+    <!-- получаем текущий url для перенапраления в личный кабинет -->
+    <input type="hidden" id="currentUrl" value="<?= ScriptApp.getService().getUrl(); ?>">
+    <!-- разметка формы регистрации -->
     <?!= include("src/front-end/loginPage/registrationPopup"); ?>
-
+    <!-- скрипты для bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
         integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
         crossorigin="anonymous"></script>
-
+    <!-- скрипт для авторизации -->
     <?!= include("src/front-end/loginPage/script"); ?>
+    <!-- скрипт для регистрации -->
     <?!= include("src/front-end/loginPage/registrationScript"); ?>
 
 </body>

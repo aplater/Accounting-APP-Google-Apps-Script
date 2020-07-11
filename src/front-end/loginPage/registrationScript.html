@@ -1,5 +1,94 @@
 <script>
 
+  const SUBMIT_REG_BTN = document.getElementById('submitRegBtn');
+
+  SUBMIT_REG_BTN.addEventListener('click', processRegister);
+
+ // валидация полей email и password для регистрации
+  function processRegister() {
+    const REG_EMAIL = document.getElementById('registrationEmail');
+    const REG_PWD = document.getElementById('registrationPassword');
+    const REG_PWD_REPEAT = document.getElementById('registrationPasswordRepeated');
+    const ERR_EMAIL = document.getElementById('invalidRegEmail');
+    const ERR_PWD = document.getElementById('invalidRegPassword');
+    const ERR_PWD_REPEAT = document.getElementById('invalidRegPasswordRepeated');
+    let trimmedEmail = REG_EMAIL.value.trim();
+    let trimedPwd = REG_PWD.value.trim();
+    let trimedPwdRepeat = REG_PWD_REPEAT.value.trim();
+    let isCorrectUserData = true;
+
+    // TODO: сделать проверку на дубликаты email
+    // let isExistEmail = returnExistEmail(trimmedEmail);
+    // console.log(isExistEmail)
+    // else if (isExistEmail) {
+    //   showMessage(false, REG_EMAIL, ERR_EMAIL, 'Такой email уже зарегистрирован');
+    //   isCorrectUserData = false;
+
+
+
+
+
+
+    // email input validation
+    if (trimmedEmail === '') {
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Поле не может быть пустым');
+      isCorrectUserData = false;
+    } else if (!validateEmail(trimmedEmail)) {
+      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Пожалуйста, введите правильный email адрес');
+      isCorrectUserData = false;
+    } else {
+      showMessage(true, REG_EMAIL, ERR_EMAIL);
+    }
+
+
+
+
+    if (trimedPwd !== trimedPwdRepeat) {
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
+      isCorrectUserData = false;
+    } else if (trimedPwd === '') {
+      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
+      isCorrectUserData = false;
+    } else {
+      showMessage(true, REG_PWD_REPEAT, ERR_PWD_REPEAT);
+    }
+
+    if (isCorrectUserData) {
+      runRegisterProcess(REG_EMAIL.value, REG_PWD.value);
+    }
+
+  }
+
+ // функция для отображения подсказки - введены ли в поле регистрации валидные данные
+  function showMessage(isCorrect, elem, textField, message) {
+    if (isCorrect) {
+      elem.classList.toggle('is-valid');
+      elem.classList.remove('is-invalid');
+      return
+    }
+    elem.classList.toggle('is-invalid');
+    elem.classList.remove('is-valid');
+    textField.innerText = message;
+  }
+
+ // функция для проверки валидности email
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  // TODO: сделать проверку на дубликаты email
+  // function returnExistEmail(email, response) {
+  //   if (response == undefined) {
+
+  //   }
+  //   if (response != undefined) {
+  //     return response
+  //   }
+  // }
+
+
+ // функция для отправки кода подтверждения на почту
   function runRegisterProcess(email, password) {
     google.script.run
       .withSuccessHandler(showConfirmationField)
@@ -8,7 +97,7 @@
   }
 
 
-
+ // функция для отображения поля ввода кода подтверждения
   function showConfirmationField(responseObject) {
     if (!responseObject.success) {
       // let modalBody = document.getElementById('modalBody');
@@ -26,6 +115,9 @@
   const CONFIRM_BTN = document.getElementById('confirmCodeBtn');
   CONFIRM_BTN.addEventListener('click', processConfirmation);
 
+
+
+   // функция для отображения поля ввода кода подтверждения
   function processConfirmation() {
     let confirmCodeForm = document.getElementById('confirmCodeForm');
     let spinner = document.getElementById('confirmSpinner');
@@ -35,6 +127,9 @@
     google.script.run.withSuccessHandler(finishRegister).checkConfirmCode(confirmCode);
   }
 
+
+
+  // если код подтверддения правильный - создаем новый документ
   function finishRegister(response) {
 
     if (!response.success) {
@@ -44,9 +139,21 @@
       return
     }
     document.getElementById('successTitle').classList.toggle('hidden');
-    google.script.run.withSuccessHandler(redirectToHomePage).createNewEnvironment();
+    google.script.run.withSuccessHandler(prosessRedirect).createNewEnvironment();
+  }
 
-    
+    // перенаправляем в личный кабинет, передавая id таблицы пользователя с данными
+  function prosessRedirect(sheetID) {
+    console.log(sheetID)
+    let currenUrl = document.getElementById('currentUrl').value;
+    console.log(currenUrl)
+    let link = document.createElement("a");
+    link.setAttribute("href", `${currentUrl}?v=home&sheetId=${sheetID}`);
+    link.setAttribute("id", 'uiLink');
+    link.innerText = '';
+    document.body.append(link);
+    console.log('Сработало')
+    // setTimeout(() => document.getElementById('uiLink').click(), 3000);
   }
 
 

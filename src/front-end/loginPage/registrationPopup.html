@@ -9,6 +9,9 @@
                 </button>
             </div>
             <div class="modal-body" id="modalBody">
+
+
+                <!-- основная форма регистрации - email и пароль -->
                 <div id="registrationForm">
                     <div class="mb-3 row">
                         <label for="registrationEmail" class="col-sm-4 col-form-label">Email</label>
@@ -28,7 +31,8 @@
                         </div>
                     </div>
                     <div class="mb-3 row regPasswordRepeatedInput">
-                        <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Повторите пароль</label>
+                        <label for="registrationPasswordRepeated" class="col-sm-4 col-form-label">Повторите
+                            пароль</label>
                         <div class="col-sm-8">
                             <input type="password" class="form-control" id="registrationPasswordRepeated"
                                 placeholder="..." minlength="4" maxlength="8" size="8">
@@ -39,23 +43,38 @@
                     <button type="button" class="btn btn-primary btn-lg btn-block" id="submitRegBtn">Проверить</button>
                 </div>
 
+
+                <!-- форма ввода кода подтверждения, отправленного на почту -->
                 <div id="confirmCodeForm" class="hidden">
                     <div class="mb-3">
-                        <label for="confirmCodeInput" class="form-label">На почту отправлен код подтверждения. Введите его тут:</label>
+                        <label for="confirmCodeInput" class="form-label">На почту отправлен код подтверждения. Введите
+                            его тут:</label>
                         <input type="password" class="form-control" id="confirmCodeInput" placeholder="">
                         <div class="invalid-feedback">Неправильный код. Попробуйте снова.</div>
                     </div>
                     <button type="button" class="btn btn-primary" id="confirmCodeBtn">Отправить</button>
                 </div>
+
+
+                <!-- секция прелоадера, используется во время ожидания ответа сервера -->
                 <div class="d-block mx-auto spinner-border text-primary mb-3 hidden" role="status" id="confirmSpinner">
                     <span class="sr-only">Проверка...</span>
                 </div>
+
+
                 <h4 id='successTitle' class='hidden'>Код подтвержден. Перенаправление в личный кабинет...</h4>
 
             </div>
+
+
+
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
             </div>
+
+
+
         </div>
     </div>
 </div>
