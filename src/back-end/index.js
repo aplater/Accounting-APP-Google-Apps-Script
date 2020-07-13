@@ -21,6 +21,7 @@ function doGet(e) {
 
 function loadHome() {
   console.log('Начал загрузку кабинета')
+  return render("src/front-end/homePage/index");
 }
 
     // TODO: сделать проверку на дубликаты email

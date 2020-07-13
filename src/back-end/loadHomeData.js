@@ -10,7 +10,7 @@ function loadHomeData(categories, sheetId) {
     categoriesObject = ENVIRONMENT_PROCESSOR.returnCategoriesObject(categoriesPage);
   }
 
-  return [categoriesObject, 'homePage'];
+  return [categoriesObject, 'home'];
 
 
 }

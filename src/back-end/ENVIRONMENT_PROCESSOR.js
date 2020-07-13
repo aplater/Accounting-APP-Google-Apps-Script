@@ -26,6 +26,7 @@ const ENVIRONMENT_PROCESSOR = {
   })(),
 
   createNewEnvironment: function () {
+
     // записать email и пароль(закодировав) в свою таблицу
     let email = PropertiesService.getScriptProperties().getProperty('newUserEmail');
     let passwordSSH = PropertiesService.getScriptProperties().getProperty('newUserPassword').hashCode();
@@ -35,15 +36,16 @@ const ENVIRONMENT_PROCESSOR = {
     let date = new Date();
     let aliases = '';
     let isDeleted = false;
-    let rowData = [newId, date, email, passwordSSH, aliases, isDeleted];
-    dataSheet.getRange((lastRowNum + 1), 1, 1, (rowData.length)).setValues([rowData]);
     // создать новую таблицу с названием по email (сделав копию шаблона) и расшарить пользователю
     let folder = DriveApp.getFolderById(ENVIRONMENT_PROCESSOR.folderId);
     let file = DriveApp.getFileById(ENVIRONMENT_PROCESSOR.templateSheetId);
     let newFileId = file.makeCopy(email, folder).getId();
+    let rowData = [newId, date, email, passwordSSH, newId, aliases, isDeleted];
+    dataSheet.getRange((lastRowNum + 1), 1, 1, (rowData.length)).setValues([rowData]);
+    let response = {newUser: true, success: true, userEmail: email, ssh: passwordSSH, userSheetId: newFileId};
     PropertiesService.getScriptProperties().deleteAllProperties();
     console.log(`newFileId ---> ${newFileId}`)
-    return newFileId;
+    return response;
     // let categoriesPage = SpreadsheetApp.openById(newFileId).getSheetByName('categories');
     // let categoriesObject = ENVIRONMENT_PROCESSOR.returnCategoriesObject(categoriesPage);
     // return categoriesObject;

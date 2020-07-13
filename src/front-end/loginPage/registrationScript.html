@@ -142,20 +142,4 @@
     google.script.run.withSuccessHandler(prosessRedirect).createNewEnvironment();
   }
 
-    // перенаправляем в личный кабинет, передавая id таблицы пользователя с данными
-  function prosessRedirect(sheetID) {
-    console.log(sheetID)
-    let currenUrl = document.getElementById('currentUrl').value;
-    console.log(currenUrl)
-    let link = document.createElement("a");
-    link.setAttribute("href", `${currentUrl}?v=home&sheetId=${sheetID}`);
-    link.setAttribute("id", 'uiLink');
-    link.innerText = '';
-    document.body.append(link);
-    console.log('Сработало')
-    // setTimeout(() => document.getElementById('uiLink').click(), 3000);
-  }
-
-
-
 </script>
