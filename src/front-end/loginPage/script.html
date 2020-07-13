@@ -24,40 +24,6 @@
 
 
 
-
-  // function checkSSHKey(sshKey) {
-  //   google.script.run.withSuccessHandler(loadUi)
-  //     .server_checkSSH(sshKey);
-  // }
-
-  // function loadUi(response) {
-  //   if (response === false) {
-  //     console.log("Проверка не пройдена остаться на форме логина!");
-  //     console.log(response)
-  //     return false;
-  //   } else {
-  //     console.log("Проверка пройдена, показать форму ввода бюджета!");
-  //     console.log(response)
-  //     redirect(response)
-  //     // создание кнопки и клик по ней - функция
-  //   }
-  // }
-
-  // function redirect(object) {
-  //   let loader = document.getElementById('loader');
-  //   let submitButtonSpan = document.getElementById('submitButtonSpan');
-  //   let currentUrl = document.getElementById('currentUrl').value;
-  //   let link = document.createElement("a");
-  //   link.setAttribute("href", `${currentUrl}?v=${object.success}`);
-  //   link.setAttribute("id", 'uiLink');
-  //   link.innerText = '';
-  //   document.body.append(link);
-  //   loader.classList.toggle("disabled");
-  //   submitButtonSpan.classList.toggle("hidden");
-  //   setTimeout(() => document.getElementById('uiLink').click(), 3000);
-  // }
-
-
   // перенаправляем в личный кабинет, передавая id таблицы пользователя с данными
   function prosessRedirect(response) {
     let sheetId;
@@ -93,6 +59,47 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const INPUTS = ["loginFormEmail", "loginFormPassword"];
+  const SUBMIT_BUTTON = document.getElementById("loginFormSbmBtn");
+
+  SUBMIT_BUTTON.addEventListener('click', checkUserLogin);
+
+  function checkUserLogin() {
+    console.log('Отправляю данные на сервер...')
+    let inputsData = {};
+      for (let i = 0; i < INPUTS.length; i++) {
+        inputsData[INPUTS[i]] = document.getElementById(INPUTS[i]).value;
+      }
+      google.script.run.withSuccessHandler(prosessRedirect)
+          .checkLoginForm(inputsData);
+  }
 
 
 </script>

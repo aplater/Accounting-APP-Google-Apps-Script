@@ -47,3 +47,6 @@ function checkAuthData(localStorageDataArray) {
   return  {success: false}
 
 }
+
+
+
