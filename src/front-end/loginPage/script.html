@@ -22,16 +22,18 @@
 
 
 
-
+  response.success = true;
+  
 
   // перенаправляем в личный кабинет, передавая id таблицы пользователя с данными
   function prosessRedirect(response) {
     let sheetId;
     console.log(response)
     if (response.success == true && response.newUser == true) {
+      console.log(response.successMessage)
       console.log(`попал в первый иф`)
-      localStorage.setItem('email', response.userEmail);
-      localStorage.setItem('sshKey', response.ssh);
+      localStorage.setItem('email', response.email);
+      localStorage.setItem('sshKey', response.passwordSSH);
       localStorage.setItem('sheetId', response.userSheetId);
       sheetId = response.userSheetId;
     } else if (response.success == true && response.newUser == false) {
@@ -86,19 +88,29 @@
 
 
 
-  const INPUTS = ["loginFormEmail", "loginFormPassword"];
+
   const SUBMIT_BUTTON = document.getElementById("loginFormSbmBtn");
 
   SUBMIT_BUTTON.addEventListener('click', checkUserLogin);
 
   function checkUserLogin() {
-    console.log('Отправляю данные на сервер...')
-    let inputsData = {};
-      for (let i = 0; i < INPUTS.length; i++) {
-        inputsData[INPUTS[i]] = document.getElementById(INPUTS[i]).value;
-      }
-      google.script.run.withSuccessHandler(prosessRedirect)
-          .checkLoginForm(inputsData);
+    console.log('Отправляю данные на сервер...');
+    let email = document.getElementById('loginFormEmail');
+    let password = document.getElementById('loginFormPassword');
+    let inputsData = {
+      loginFormEmail: '',
+      loginFormPassword: ''
+    };
+    if (validateEmail(email.value)) {
+      inputsData.loginFormEmail = email.value;
+      inputsData.loginFormPassword = password.value;
+    } else {
+      console.log('неправильный email')
+      return false;
+    }
+
+    google.script.run.withSuccessHandler(prosessRedirect)
+      .checkLoginForm(inputsData);
   }
 
 

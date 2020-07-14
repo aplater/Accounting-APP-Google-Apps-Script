@@ -29,7 +29,8 @@ const ENVIRONMENT_PROCESSOR = {
 
     // записать email и пароль(закодировав) в свою таблицу
     let email = PropertiesService.getScriptProperties().getProperty('newUserEmail');
-    let passwordSSH = PropertiesService.getScriptProperties().getProperty('newUserPassword').hashCode();
+    let passwordSSH = PropertiesService.getScriptProperties().getProperty('newUserPassword');
+    passwordSSH = AUTH.returnHashCode(passwordSSH);
     let dataSheet = ENVIRONMENT_PROCESSOR.returnDataSheet();
     let lastRowNum = dataSheet.getLastRow();
     let newId = Number(dataSheet.getRange(`A${lastRowNum}`).getValue()) + 1;
@@ -42,10 +43,10 @@ const ENVIRONMENT_PROCESSOR = {
     let newFileId = file.makeCopy(email, folder).getId();
     let rowData = [newId, date, email, passwordSSH, newId, aliases, isDeleted];
     dataSheet.getRange((lastRowNum + 1), 1, 1, (rowData.length)).setValues([rowData]);
-    let response = {newUser: true, success: true, userEmail: email, ssh: passwordSSH, userSheetId: newFileId};
+    let resultArray = [email, passwordSSH, newFileId];
     PropertiesService.getScriptProperties().deleteAllProperties();
     console.log(`newFileId ---> ${newFileId}`)
-    return response;
+    return resultArray;
     // let categoriesPage = SpreadsheetApp.openById(newFileId).getSheetByName('categories');
     // let categoriesObject = ENVIRONMENT_PROCESSOR.returnCategoriesObject(categoriesPage);
     // return categoriesObject;

@@ -1,81 +1,62 @@
 <script>
 
-  const SUBMIT_REG_BTN = document.getElementById('submitRegBtn');
 
-  SUBMIT_REG_BTN.addEventListener('click', processRegister);
+  // TODO: сделать проверку на дубликаты email
 
- // валидация полей email и password для регистрации
-  function processRegister() {
-    const REG_EMAIL = document.getElementById('registrationEmail');
-    const REG_PWD = document.getElementById('registrationPassword');
-    const REG_PWD_REPEAT = document.getElementById('registrationPasswordRepeated');
-    const ERR_EMAIL = document.getElementById('invalidRegEmail');
-    const ERR_PWD = document.getElementById('invalidRegPassword');
-    const ERR_PWD_REPEAT = document.getElementById('invalidRegPasswordRepeated');
-    let trimmedEmail = REG_EMAIL.value.trim();
-    let trimedPwd = REG_PWD.value.trim();
-    let trimedPwdRepeat = REG_PWD_REPEAT.value.trim();
+  // -------------------------------------------------------
+  // ------------------------ РЕГИСТРАЦИЯ ------------------
+  // -------------------------------------------------------
+
+  document.getElementById('submitRegBtn').addEventListener('click', startRegister);
+
+  // валидация полей email и password для регистрации
+  function startRegister() {
+    const EMAIL_INP = document.getElementById('registrationEmail');
+    const PASSWORD_INP = document.getElementById('registrationPassword');
+    const REPEATED_PASSWORD_INP = document.getElementById('registrationPasswordRepeated');
+    const EMAIL_MESSAGE = document.getElementById('invalidRegEmail');
+    const PASSWORD_MESSAGE = document.getElementById('invalidRegPassword');
+    const REPEATED_PASSWORD_MESSAGE = document.getElementById('invalidRegPasswordRepeated');
     let isCorrectUserData = true;
+    let email = EMAIL_INP.value.trim();
+    let password = PASSWORD_INP.value.trim();
+    let passwordRepeated = REPEATED_PASSWORD_INP.value.trim();
 
-    // TODO: сделать проверку на дубликаты email
-    // let isExistEmail = returnExistEmail(trimmedEmail);
-    // console.log(isExistEmail)
-    // else if (isExistEmail) {
-    //   showMessage(false, REG_EMAIL, ERR_EMAIL, 'Такой email уже зарегистрирован');
-    //   isCorrectUserData = false;
-
-
-
-
-
-
-    // email input validation
-    if (trimmedEmail === '') {
-      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Поле не может быть пустым');
+    if (isEmpty(email)) {
+      showMessage(false, EMAIL_INP, EMAIL_MESSAGE, 'Поле не может быть пустым');
       isCorrectUserData = false;
-    } else if (!validateEmail(trimmedEmail)) {
-      showMessage(false, REG_EMAIL, ERR_EMAIL, 'Пожалуйста, введите правильный email адрес');
+    } else if (!isValidEmailFormat(email)) {
+      showMessage(false, EMAIL_INP, EMAIL_MESSAGE, 'Пожалуйста, введите правильный email адрес');
       isCorrectUserData = false;
     } else {
-      showMessage(true, REG_EMAIL, ERR_EMAIL);
+      showMessage(true, EMAIL_INP, EMAIL_MESSAGE);
     }
 
-
-
-
-    if (trimedPwd !== trimedPwdRepeat) {
-      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
+    if (password !== passwordRepeated) {
+      showMessage(false, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE, 'Пароли не совпадают');
       isCorrectUserData = false;
-    } else if (trimedPwd === '') {
-      showMessage(false, REG_PWD_REPEAT, ERR_PWD_REPEAT, 'Пароли не совпадают');
+    } else if (isEmpty(password)) {
+      showMessage(false, PASSWORD_INP, PASSWORD_MESSAGE, 'Поле не может быть пустым');
+      isCorrectUserData = false;
+    } else if (isEmpty(passwordRepeated)) {
+      showMessage(false, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE, 'Поле не может быть пустым');
       isCorrectUserData = false;
     } else {
-      showMessage(true, REG_PWD_REPEAT, ERR_PWD_REPEAT);
+      showMessage(true, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE);
     }
+    
 
     if (isCorrectUserData) {
-      runRegisterProcess(REG_EMAIL.value, REG_PWD.value);
+      google.script.run
+        .withSuccessHandler(showConfirmationField)
+        .registerProcessor({mode: 1, email: email, password: password});
     }
 
   }
 
- // функция для отображения подсказки - введены ли в поле регистрации валидные данные
-  function showMessage(isCorrect, elem, textField, message) {
-    if (isCorrect) {
-      elem.classList.toggle('is-valid');
-      elem.classList.remove('is-invalid');
-      return
-    }
-    elem.classList.toggle('is-invalid');
-    elem.classList.remove('is-valid');
-    textField.innerText = message;
-  }
 
- // функция для проверки валидности email
-  function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
+
+
 
   // TODO: сделать проверку на дубликаты email
   // function returnExistEmail(email, response) {
@@ -88,50 +69,39 @@
   // }
 
 
- // функция для отправки кода подтверждения на почту
-  function runRegisterProcess(email, password) {
-    google.script.run
-      .withSuccessHandler(showConfirmationField)
-      .withFailureHandler(showConfirmationField)
-      .startRegisterProcess(email, password);
-  }
 
 
- // функция для отображения поля ввода кода подтверждения
-  function showConfirmationField(responseObject) {
-    if (!responseObject.success) {
+  // функция для отображения поля ввода кода подтверждения
+  function showConfirmationField(response) {
+    if (!response.success) {
       // let modalBody = document.getElementById('modalBody');
       // modalBody.innerHTML = '';
-      console.log('response')
+      console.log(response.errorMessage)
       return
     }
-    let regForm = document.getElementById('registrationForm');
-    let confirmForm = document.getElementById('confirmCodeForm');
-    regForm.classList.toggle('hidden');
-    confirmForm.classList.toggle('hidden');
+    const REGISTRATION_FORM = document.getElementById('registrationForm');
+    const CONFIRMATION_FORM = document.getElementById('confirmCodeForm');
+    REGISTRATION_FORM.classList.toggle('hidden');
+    CONFIRMATION_FORM.classList.toggle('hidden');
   }
 
   // confirmation part
-  const CONFIRM_BTN = document.getElementById('confirmCodeBtn');
-  CONFIRM_BTN.addEventListener('click', processConfirmation);
+  document.getElementById('confirmCodeBtn').addEventListener('click', startConfirmation);
 
-
-
-   // функция для отображения поля ввода кода подтверждения
-  function processConfirmation() {
+  // функция для отображения поля ввода кода подтверждения
+  function startConfirmation() {
     let confirmCodeForm = document.getElementById('confirmCodeForm');
     let spinner = document.getElementById('confirmSpinner');
     confirmCodeForm.classList.toggle('hidden');
     spinner.classList.toggle('hidden');
-    let confirmCode = document.getElementById('confirmCodeInput').value;
-    google.script.run.withSuccessHandler(finishRegister).checkConfirmCode(confirmCode);
+    let confirmCode = document.getElementById('confirmCodeInput').value.trim();
+    google.script.run.withSuccessHandler(finishConfirmation).registerProcessor({mode: 2, userConfirmationCode: confirmCode});
   }
 
 
 
   // если код подтверддения правильный - создаем новый документ
-  function finishRegister(response) {
-
+  function finishConfirmation(response) {
     if (!response.success) {
       document.getElementById('confirmCodeForm').classList.toggle('hidden');
       document.getElementById('confirmCodeInput').classList.toggle('is-invalid');
@@ -139,7 +109,7 @@
       return
     }
     document.getElementById('successTitle').classList.toggle('hidden');
-    google.script.run.withSuccessHandler(prosessRedirect).createNewEnvironment();
+    google.script.run.withSuccessHandler(prosessRedirect).registerProcessor({mode: 3});
   }
 
 </script>

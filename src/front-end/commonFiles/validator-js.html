@@ -1,0 +1,51 @@
+<script>
+  // -------------------------------------------------------
+  // ------------------- ФАЙЛ С ВАЛИДАТОРАМИ ---------------
+  // -------------------------------------------------------
+
+
+
+
+
+
+
+  // функция для отображения подсказки - введены ли в поле регистрации валидные данные
+  function showMessage(isCorrect, elem, textField, message) {
+    if (isCorrect) {
+      elem.classList.toggle('is-valid');
+      elem.classList.remove('is-invalid');
+      return
+    }
+    elem.classList.toggle('is-invalid');
+    elem.classList.remove('is-valid');
+    if (textField != undefined) {
+      textField.innerText = message;
+    }
+  }
+
+
+
+
+  // функция для проверки валидности email
+  function isValidEmailFormat(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+
+
+
+  function isEmpty(string) {
+    if (string === '') {
+      return true;
+    }
+    return false;
+  }
+
+
+
+
+
+
+
+</script>
