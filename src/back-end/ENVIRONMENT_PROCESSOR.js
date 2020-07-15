@@ -41,7 +41,7 @@ const ENVIRONMENT_PROCESSOR = {
     let folder = DriveApp.getFolderById(ENVIRONMENT_PROCESSOR.folderId);
     let file = DriveApp.getFileById(ENVIRONMENT_PROCESSOR.templateSheetId);
     let newFileId = file.makeCopy(email, folder).getId();
-    let rowData = [newId, date, email, passwordSSH, newId, aliases, isDeleted];
+    let rowData = [newId, date, email, passwordSSH, newFileId, aliases, isDeleted];
     dataSheet.getRange((lastRowNum + 1), 1, 1, (rowData.length)).setValues([rowData]);
     let resultArray = [email, passwordSSH, newFileId];
     PropertiesService.getScriptProperties().deleteAllProperties();

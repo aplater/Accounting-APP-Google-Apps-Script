@@ -6,6 +6,7 @@ const AUTH = {
    * @returns {Boolean}
    */
   validateEmail: function (email) {
+    console.log(`[BACK-END] Функция validateEmail()`);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   },
@@ -15,6 +16,7 @@ const AUTH = {
    * @returns {Number} hash
    */
   returnHashCode: function(string) {
+    console.log(`[BACK-END] Функция returnHashCode()`);
     let hash = 12345567; 
     let charset = null;
     if (string.length === 0) {
