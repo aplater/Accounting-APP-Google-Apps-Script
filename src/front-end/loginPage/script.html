@@ -47,7 +47,7 @@
       localStorage.setItem('sshKey', response.passwordSSH);
       localStorage.setItem('sheetId', response.userSheetId);
       sheetId = response.userSheetId;
-    } else if (response.success == true && response.newUser == false) {
+    } else if (response.success == true && response.newUser == false && response.userSheetId != undefined) {
       console.log(`попал в второй иф`)
       sheetId = response.userSheetId;
     }
@@ -70,8 +70,7 @@
     let currenUrl = document.getElementById('currentUrl').value;
     console.log(currenUrl)
     let link = document.createElement("a");
-    // link.setAttribute("href", `${currentUrl}?v=home&sheetId=${sheetID}`);
-    link.setAttribute("href", `${String(currentUrl.value)}?v=home`);
+    link.setAttribute("href", `${String(currentUrl.value)}?v=home&sheetId=${sheetId}`);
     link.setAttribute("id", 'uiLink');
     link.innerText = '';
     document.body.append(link);

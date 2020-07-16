@@ -28,21 +28,39 @@
         </header>
 
 
+
+
+
+
+
         <!-- форма логина и пароля -->
         <main class="row d-flex justify-content-center">
 
             <form class="col-sm-5 col-md-5 col-lg-3">
-                <h3 class="loginForm__title">Вход</h3>
+
+                <h3 class="login__title">Вход</h3>
+                <!-- логин -->
                 <div class="mb-3">
-                    <input type="email" class="form-control loginForm__input" id="loginFormEmail"
+                    <input type="email" class="form-control login__input" id="loginEmail"
                         aria-describedby="emailHelp" placeholder="Email" required>
+                    <div class="invalid-feedback" id="loginEmailErrText"></div>
+                    <div class="valid-feedback">Отлично!</div>
                 </div>
+                <!-- пароль -->
                 <div class="mb-3">
-                    <input type="password" class="form-control loginForm__input" id="loginFormPassword"
+                    <input type="password" class="form-control login__input" id="loginPassword"
                         placeholder="Пароль" required>
+                    <div class="invalid-feedback" id="loginPasswordErrText"></div>
+                    <div class="valid-feedback">Отлично!</div>
                 </div>
-                <button type="button" class="btn btn-primary loginForm__submitButton" id="loginFormSbmBtn">Войти в кабинет</button>
-                <p class="loginForm__registration">Нужна регистрация? <a href="#" id="registerAccountLink"
+                <!-- чекбокс запомнить браузер -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="loginRememberCheckbox">
+                    <label class="form-check-label login__rememberLabel" for="loginRememberCheckbox">Запомнить этот браузер</label>
+                </div>
+                <!-- кнопка отправки данных -->
+                <button type="button" class="btn btn-primary login__submit" id="loginSubmit">Войти в кабинет</button>
+                <p class="login__registration">Нужна регистрация? <a href="#" id="registerAccountLink"
                         data-toggle="modal" data-target="#registerPopup">Создать аккаунт</a></p>
             </form>
         </main>

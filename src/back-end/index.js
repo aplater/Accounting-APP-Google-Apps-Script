@@ -6,22 +6,22 @@ Route.path = function (route, callback) {
 }
 
 function doGet(e) {
-  console.log(e);
+
     Route.path("home", loadHome);
     if (Route[e.parameters.v]) {
+      console.log(`загрузка домашней страницы`);
 
       console.log(e);
-      return Route[e.parameters.v]();
+      return Route[e.parameters.v](e);
     } else {
-
+      console.log(`обычная загрузка`);
       console.log(e);
       return render("src/front-end/loginPage/index");
     }
 }
 
-function loadHome() {
-  console.log('Начал загрузку кабинета')
-  return render("src/front-end/homePage/index");
+function loadHome(e) {
+  return render("src/front-end/homePage/index", {title: e.parameters.sheetId});
 }
 
     // TODO: сделать проверку на дубликаты email
@@ -58,77 +58,3 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Called from the client with form data, basic validation for blank values
-function formSubmit(object) {
-  for (var field in object) {
-    if (object[field] == '') {
-      return { success: false, message: `${field} не может быть пустым!`}
-    }
-  }
-  if (!validateEmail(object.email)) {
-    return { success: false, message: 'Неправильный формат email!' }
-  }
-  let passwordSSH = String(object.password).hashCode();
-  let sheet = SPREADSHEET_APP.returnLoginPage();
-  let emailFinder = sheet.createTextFinder(object.email).matchEntireCell(true).findNext();
-  let passwordFinder = sheet.createTextFinder(passwordSSH).matchEntireCell(true).findNext();
-  if (emailFinder == null) {
-    return { success: false, message: 'Неправильный email!' }
-  }
-  if (passwordFinder == null) {
-    return { success: false, message: 'Неправильный пароль!' }
-  }
-  let emailRow = emailFinder.getRow();
-  let userName = sheet.getRange(emailRow, 3).getValue();
-  console.log(`emailRow is ${emailRow}. name is ${userName}`)
-  let hours = new Date().getHours();
-  let text = '';
-  // switch (hours) {
-  //   case (hours < 5): text = `Доброй ночи, ${}`;
-  // }
-
-  return { success: "home", message: 'Авторизация успешно пройдена!', sshKey: passwordSSH }
-}

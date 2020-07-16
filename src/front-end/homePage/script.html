@@ -1,0 +1,12 @@
+<script>
+  (function () {
+    console.log('Загрузка категорий')
+    console.log(document.getElementById('sheetId').value)
+    let sheetId = document.getElementById('sheetId').value.trim();
+    google.script.run.withSuccessHandler(putCategories).returnCategories(sheetId);
+  })();
+
+  function putCategories(response) {
+    console.log(response);
+  }
+</script>

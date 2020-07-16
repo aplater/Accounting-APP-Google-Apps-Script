@@ -47,8 +47,7 @@ const ENVIRONMENT_PROCESSOR = {
     PropertiesService.getScriptProperties().deleteAllProperties();
     console.log(`newFileId ---> ${newFileId}`)
     return resultArray;
-    // let categoriesPage = SpreadsheetApp.openById(newFileId).getSheetByName('categories');
-    // let categoriesObject = ENVIRONMENT_PROCESSOR.returnCategoriesObject(categoriesPage);
+
     // return categoriesObject;
   },
 
