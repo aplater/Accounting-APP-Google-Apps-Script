@@ -18,8 +18,7 @@
                         <div class="col-sm-8">
                             <input type="email" class="form-control" id="registrationEmail"
                                 placeholder="email@example.com">
-                            <div class="valid-feedback">Отлично!</div>
-                            <div class="invalid-feedback" id="invalidRegEmail"></div>
+                            <div class="invalid-feedback" id="invalidRegEmailMessage"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -27,7 +26,7 @@
                         <div class="col-sm-8">
                             <input type="password" class="form-control" id="registrationPassword" placeholder="..."
                                 minlength="4" maxlength="8" size="8">
-                            <div class="invalid-feedback" id="invalidRegPassword"></div>
+                            <div class="invalid-feedback" id="invalidRegPasswordMessage"></div>
                         </div>
                     </div>
                     <div class="mb-3 row regPasswordRepeatedInput">
@@ -36,8 +35,7 @@
                         <div class="col-sm-8">
                             <input type="password" class="form-control" id="registrationPasswordRepeated"
                                 placeholder="..." minlength="4" maxlength="8" size="8">
-                            <div class="invalid-feedback" id="invalidRegPasswordRepeated"></div>
-                            <div class="valid-feedback">Отлично!</div>
+                            <div class="invalid-feedback" id="invalidRegPasswordRepeatedMessage"></div>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary btn-lg btn-block" id="submitRegBtn">Проверить</button>
@@ -50,7 +48,7 @@
                         <label for="confirmCodeInput" class="form-label">На почту отправлен код подтверждения. Введите
                             его тут:</label>
                         <input type="password" class="form-control" id="confirmCodeInput" placeholder="">
-                        <div class="invalid-feedback">Неправильный код. Попробуйте снова.</div>
+                        <div class="invalid-feedback" id="invalidConfirmCodeMessage">Неправильный код. Попробуйте снова.</div>
                     </div>
                     <button type="button" class="btn btn-primary" id="confirmCodeBtn">Отправить</button>
                 </div>

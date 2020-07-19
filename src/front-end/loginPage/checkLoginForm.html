@@ -1,0 +1,122 @@
+<script>
+  document.getElementById("loginFormSbmBtn").addEventListener('click', checkUserLogin);
+
+  function checkUserLogin() {
+    // добавить кнопку "запомнить меня"
+    let authData = {
+      email: null,
+      password: null,
+      mode: "loginFormMode",
+      isRemember: false
+    }
+    let isInvalidData = true;
+
+    let emailInput = document.getElementById('loginEmail');
+    let passwordInput = document.getElementById('loginPassword');
+    let emailResponse = document.getElementById('invalidEmailMessage');
+    let passwordResponse = document.getElementById('invalidPasswordMessage');
+    let emailValue = emailInput.value.trim();
+    let passwordValue = passwordInput.value.trim();
+
+
+    if (isEmpty(emailValue)) {
+      emailInput.classList.toggle('is-invalid');
+      emailResponse.innerText = 'Поле не может быть пустым';
+      if (isEmpty(passwordValue)) {
+        passwordInput.classList.toggle('is-invalid');
+        passwordResponse.innerText = 'Поле не может быть пустым';
+      }
+      setTimeout(() => {
+        emailInput.classList.toggle('is-invalid');
+        passwordInput.classList.toggle('is-invalid');
+      }, 3000);
+      return;
+    }
+
+    if (isValidEmailFormat(emailValue)) {
+      authData.email = emailValue;
+    } else {
+      emailInput.classList.toggle('is-invalid');
+      emailResponse.innerText = 'Неправильный формат email';
+      if (isEmpty(passwordValue)) {
+        passwordInput.classList.toggle('is-invalid');
+        passwordResponse.innerText = 'Поле не может быть пустым';
+      }
+      setTimeout(() => {
+        emailInput.classList.toggle('is-invalid');
+        if (isEmpty(passwordValue)) {
+          passwordInput.classList.toggle('is-invalid');
+        }
+      }, 3000);
+      return;
+    }
+
+    if (isEmpty(passwordValue)) {
+      passwordInput.classList.toggle('is-invalid');
+      passwordResponse.innerText = 'Поле не может быть пустым';
+      setTimeout(() => passwordInput.classList.toggle('is-invalid'), 3000);
+    } else {
+      isInvalidData = false;
+    }
+
+
+
+    if (isInvalidData) {
+      return;
+    }
+
+    console.log('Отправляю данные на сервер...');
+
+
+
+    authData.password = passwordValue;
+
+
+
+    let rememberMeCheckbox = document.getElementById('loginRememberCheckbox').checked;
+    if (rememberMeCheckbox) {
+      authData.isRemember = true;
+    }
+
+    console.log(`authData для отправки на сервер`)
+
+    console.log(authData);
+    document.getElementById("loginFormSbmBtn").classList.toggle('hidden');
+    document.getElementById('loginSpinner').classList.toggle('hidden');
+    google.script.run.withSuccessHandler(processResponse).checkAuthData(authData);
+  }
+
+
+  function processResponse(response) {
+    if (!response.success) {
+      document.getElementById("loginFormSbmBtn").classList.toggle('hidden');
+      document.getElementById('loginSpinner').classList.toggle('hidden');
+      let emailInput = document.getElementById('loginEmail');
+      let passwordInput = document.getElementById('loginPassword');
+      let emailResponse = document.getElementById('invalidEmailMessage');
+      let passwordResponse = document.getElementById('invalidPasswordMessage');
+      if (response.errorMessage == "Такого пользователя не существует") {
+        emailInput.classList.toggle('is-invalid');
+        emailResponse.innerText = response.errorMessage;
+        setTimeout(() => {
+          emailInput.classList.toggle('is-invalid');
+        }, 3000);
+        return;
+      }
+
+      if (response.errorMessage == "Неправильный пароль") {
+        passwordInput.classList.toggle('is-invalid');
+        passwordResponse.innerText = response.errorMessage;
+        setTimeout(() => {
+          passwordInput.classList.toggle('is-invalid');
+        }, 3000);
+        return;
+      }
+
+    }
+
+    prosessRedirect(response);
+  }
+
+
+</script>

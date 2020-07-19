@@ -9,8 +9,12 @@ function checkAuthData(data) {
     success: false,
     successMessage: '',
     errorMessage: '',
-    newUser: false,
-    userSheetId: null
+    userSheetId: null,
+    mode: null,
+    isRemember: false,
+    email: null,
+    sshPassword: null
+
   }
 
   if (MODE == undefined) {
@@ -19,20 +23,20 @@ function checkAuthData(data) {
     return response;
   }
 
-  if (MODE == 1) {
-    console.log("[BACK-END] MODE == 1");
+  if (MODE == "localStorageMode") {
+    console.log("[BACK-END] MODE == localStorageMode");
     let email = data.email;
-    let password = data.password;
+    let sshPassword = data.sshPassword;
     let sheetId = data.sheetId;
     console.log(`[BACK-END] email ---> ${email}`);
-    console.log(`[BACK-END] password ---> ${password}`);
+    console.log(`[BACK-END] sshPassword ---> ${sshPassword}`);
     console.log(`[BACK-END] sheetId ---> ${sheetId}`);
 
-    if (email != undefined && password != undefined && sheetId != undefined) {
+    if (email != undefined && sshPassword != undefined && sheetId != undefined) {
       let sheetData = ENVIRONMENT_PROCESSOR.returnDataSheet();
       let emailRange = sheetData.createTextFinder(email.toLowerCase()).matchEntireCell(true).findNext();
       if (emailRange == null) {
-        response.errorMessage = "Отсутствует email";
+        response.errorMessage = "Такого пользователя не существует";
         return response;
       }
       let row = emailRange.getRow();
@@ -47,12 +51,12 @@ function checkAuthData(data) {
       console.log(arrOfValues)
       let indexOf = arrOfValues.indexOf(email);
       if (indexOf === -1) {
-        response.errorMessage = "Не совпал email";
+        response.errorMessage = "Такого пользователя не существует";
         return response;
       }
-      indexOf = arrOfValues.indexOf(password);
+      indexOf = arrOfValues.indexOf(sshPassword);
       if (indexOf === -1) {
-        response.errorMessage = "Не совпал пароль";
+        response.errorMessage = "Неправильный пароль";
         return response;
       }
       indexOf = arrOfValues.indexOf(sheetId);
@@ -63,6 +67,7 @@ function checkAuthData(data) {
       response.success = true;
       response.successMessage = "Все три поля - валидные."
       response.userSheetId = sheetId;
+      response.mode = MODE;
       return response;
     }
     console.log(`[BACK-END] Один из параметров - undefined `);
@@ -72,22 +77,24 @@ function checkAuthData(data) {
 
 
 
-  if (MODE == 2) {
-    console.log("[BACK-END] MODE == 2");
+  if (MODE == "loginFormMode") {
+    console.log("[BACK-END] MODE == loginFormMode");
     console.log("[BACK-END] Проверка логина пароля")
     let email = data.email;
     let password = data.password;
+    let isRemember = data.isRemember;
+
     if (email != undefined && password != undefined) {
       console.log(`[BACK-END] email ---> ${email}`);
       console.log(`[BACK-END] password ---> ${password}`);
-      let hashedPaword = String(AUTH.returnHashCode(String(password)));
-      console.log(`[BACK-END] hashedPaword ---> ${hashedPaword}`);
+      let sshPassword = String(AUTH.returnHashCode(String(password)));
+      console.log(`[BACK-END] hashedPaword ---> ${sshPassword}`);
 
       let sheetData = ENVIRONMENT_PROCESSOR.returnDataSheet();
       let emailRange = sheetData.createTextFinder(email.toLowerCase()).matchEntireCell(true).findNext();
       console.log(`[BACK-END] emailRange ---> ${emailRange}`);
       if (emailRange == null) {
-        response.errorMessage = "Отсутствует email";
+        response.errorMessage = "Такого пользователя не существует";
         return response;
       }
       let row = emailRange.getRow();
@@ -100,28 +107,42 @@ function checkAuthData(data) {
       console.log(`[BACK-END] arrOfValues ---> ${arrOfValues}`);
       let indexOf = arrOfValues.indexOf(email);
       if (indexOf === -1) {
-        console.log("[BACK-END] Не совпал email")
-        response.errorMessage = "Не совпал email";
+        console.log("[BACK-END] Такого пользователя не существует")
+        response.errorMessage = "Такого пользователя не существует";
         return response;
       }
-      indexOf = arrOfValues.indexOf(hashedPaword);
+      indexOf = arrOfValues.indexOf(sshPassword);
       if (indexOf === -1) {
-        console.log(`[BACK-END] Не совпал пароль  hashedPaword ---> ${hashedPaword}`);
-        console.log(`[BACK-END] TYPE OF hashedPaword ---> ${typeof hashedPaword}`);
-        response.errorMessage = "Не совпал пароль";
+        console.log(`[BACK-END] Неправильный пароль  hashedPaword ---> ${sshPassword}`);
+        console.log(`[BACK-END] TYPE OF hashedPaword ---> ${typeof sshPassword}`);
+        response.errorMessage = "Неправильный пароль";
         return response;
       }
       console.log("[BACK-END] email и пароль валидные.")
+      if (isRemember) {
+        response.isRemember = isRemember;
+      }
       response.success = true;
       response.successMessage = "email и пароль валидные."
       response.userSheetId = arrOfValues[2];
-      console.log(`[BACK-END] arrOfValues[2] ---> ${arrOfValues[2]}`)
+      response.email = email;
+      response.sshPassword = sshPassword;
 
+      console.log(`[BACK-END] arrOfValues[2] ---> ${arrOfValues[2]}`)
+      response.mode = MODE;
       return response;
     }
     console.log(`[BACK-END] Один из параметров - undefined `);
     return response;
   }
+
+
+
+
+
+  console.log(`[BACK-END] Неправильный MODE `);
+  response.errorMessage = 'Неправильный MODE';
+  return response;
 
 
 

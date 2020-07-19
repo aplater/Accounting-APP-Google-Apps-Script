@@ -1,0 +1,32 @@
+<script>
+  (function () {
+    console.log(`Проверка авторизации по данным из local storage`)
+    let authData = {
+      email: null,
+      sshPassword: null,
+      sheetId: null,
+      mode: 'localStorageMode'
+    }
+    let email = localStorage.getItem('email');
+    let sshPassword = localStorage.getItem('sshPassword');
+    let sheetId = localStorage.getItem('sheetId');
+
+    if (email === null || sshPassword === null || sheetId === null) {
+      console.log("Не авторизирован!");
+      clearLocalStorage();
+      return false;
+    }
+    if (email == 'undefined' || sshPassword == 'undefined' || sheetId == 'undefined') {
+      console.log("Не авторизирован!");
+      clearLocalStorage();
+      return false;
+    }
+    authData.email = email;
+    authData.sshPassword = sshPassword;
+    authData.sheetId = sheetId;
+
+    // проверить все три ключа, если все ок - перенаправить на домашнюю страницу
+    google.script.run.withSuccessHandler(prosessRedirect).checkAuthData(authData);
+  })();
+
+</script>

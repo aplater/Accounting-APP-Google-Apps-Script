@@ -1,0 +1,74 @@
+<script>
+  // перенаправляем в личный кабинет, передавая id таблицы пользователя с данными
+  function prosessRedirect(response) {
+    const MODE = response.mode;
+
+
+
+
+    if (MODE == undefined || MODE == null) {
+      console.log(" Ответ сервера: MODE == null или MODE == undefined");
+      console.log(response.errorMessage);
+      return;
+    }
+
+
+
+
+    if (MODE === "localStorageMode" && response.success == true) {
+      document.getElementById("loginFormSbmBtn").classList.toggle('hidden');
+      document.getElementById('loginSpinner').classList.toggle('hidden');
+      // данные проверены и авторизируем пользователя который точно есть в системе
+      if (response.userSheetId) {
+        console.log(`вышел сюда`)
+        redirectToHomePage(response.userSheetId);
+        return;
+      } else {
+        console.log("Неправильный ответ сервера. Нет userSheetId")
+        return;
+      }
+    }
+
+
+
+
+
+
+    if (MODE === "loginFormMode" && response.success == true) {
+      // данные проверены и авторизируем пользователя который точно есть в системе
+      if (response.userSheetId) {
+        if(response.isRemember) {
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('sshPassword', response.sshPassword);
+          localStorage.setItem('sheetId', response.userSheetId);
+        }
+        redirectToHomePage(response.userSheetId);
+        return;
+      } else {
+        console.log("Неправильный ответ сервера. Нет userSheetId")
+        return;
+      }
+    }
+
+
+
+  }
+
+
+
+  function redirectToHomePage(sheetId) {
+    // console.log(sheetID)
+    let currenUrl = document.getElementById('currentUrl').value;
+    console.log(currenUrl)
+    let link = document.createElement("a");
+    link.setAttribute("href", `${String(currentUrl.value)}?v=home&sheetId=${sheetId}`);
+    link.setAttribute("id", 'uiLink');
+    link.innerText = '';
+    document.body.append(link);
+    console.log('Сработало')
+    setTimeout(() => document.getElementById('uiLink').click(), 3000);
+  }
+
+
+
+</script>

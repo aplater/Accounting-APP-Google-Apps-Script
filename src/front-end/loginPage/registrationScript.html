@@ -11,62 +11,133 @@
 
   // валидация полей email и password для регистрации
   function startRegister() {
-    const EMAIL_INP = document.getElementById('registrationEmail');
-    const PASSWORD_INP = document.getElementById('registrationPassword');
-    const REPEATED_PASSWORD_INP = document.getElementById('registrationPasswordRepeated');
-    const EMAIL_MESSAGE = document.getElementById('invalidRegEmail');
-    const PASSWORD_MESSAGE = document.getElementById('invalidRegPassword');
-    const REPEATED_PASSWORD_MESSAGE = document.getElementById('invalidRegPasswordRepeated');
-    let isCorrectUserData = true;
-    let email = EMAIL_INP.value.trim();
-    let password = PASSWORD_INP.value.trim();
-    let passwordRepeated = REPEATED_PASSWORD_INP.value.trim();
 
-    if (isEmpty(email)) {
-      showMessage(false, EMAIL_INP, EMAIL_MESSAGE, 'Поле не может быть пустым');
-      isCorrectUserData = false;
-    } else if (!isValidEmailFormat(email)) {
-      showMessage(false, EMAIL_INP, EMAIL_MESSAGE, 'Пожалуйста, введите правильный email адрес');
-      isCorrectUserData = false;
+    let authData = {
+      email: null,
+      password: null,
+      mode: "startRegister"
+    }
+
+
+
+    let regEmailInput = document.getElementById('registrationEmail');
+    let regPasswordInput = document.getElementById('registrationPassword');
+    let regPasswordRepeatedInput = document.getElementById('registrationPasswordRepeated');
+
+    let regEmailResponse = document.getElementById('invalidRegEmailMessage');
+    let regPasswordResponse = document.getElementById('invalidRegPasswordMessage');
+    let regPasswordRepeatedResponse = document.getElementById('invalidRegPasswordRepeatedMessage');
+
+    let isInvalidData = true;
+
+    let regEmailValue = regEmailInput.value.trim();
+    let regPasswordValue = regPasswordInput.value.trim();
+    let regPasswordRepeatedValue = regPasswordRepeatedInput.value.trim();
+
+
+    if (isEmpty(regEmailValue)) {
+      regEmailInput.classList.toggle('is-invalid');
+      regEmailResponse.innerText = 'Поле не может быть пустым';
+      if (isEmpty(regPasswordValue)) {
+        regPasswordInput.classList.toggle('is-invalid');
+        regPasswordResponse.innerText = 'Поле не может быть пустым';
+      }
+      if (isEmpty(regPasswordRepeatedValue)) {
+        regPasswordRepeatedInput.classList.toggle('is-invalid');
+        regPasswordRepeatedResponse.innerText = 'Поле не может быть пустым';
+      }
+      setTimeout(() => {
+        regEmailInput.classList.toggle('is-invalid');
+        if (isEmpty(regPasswordValue)) {
+          regPasswordInput.classList.toggle('is-invalid');
+        }
+        if (isEmpty(regPasswordRepeatedValue)) {
+          regPasswordRepeatedInput.classList.toggle('is-invalid');
+        }
+      }, 3000);
+      return;
+    }
+
+
+
+    if (isValidEmailFormat(regEmailValue)) {
+      authData.email = regEmailValue;
     } else {
-      showMessage(true, EMAIL_INP, EMAIL_MESSAGE);
+      regEmailInput.classList.toggle('is-invalid');
+      regEmailResponse.innerText = 'Неправильный формат email';
+      if (isEmpty(regPasswordValue)) {
+        regPasswordInput.classList.toggle('is-invalid');
+        regPasswordResponse.innerText = 'Поле не может быть пустым';
+      }
+      if (isEmpty(regPasswordRepeatedValue)) {
+        regPasswordRepeatedInput.classList.toggle('is-invalid');
+        regPasswordRepeatedResponse.innerText = 'Поле не может быть пустым';
+      }
+      setTimeout(() => {
+        regEmailInput.classList.toggle('is-invalid');
+        if (isEmpty(regPasswordValue)) {
+          regPasswordInput.classList.toggle('is-invalid');
+        }
+        if (isEmpty(regPasswordRepeatedValue)) {
+          regPasswordRepeatedInput.classList.toggle('is-invalid');
+        }
+      }, 3000);
+      return;
     }
 
-    if (password !== passwordRepeated) {
-      showMessage(false, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE, 'Пароли не совпадают');
-      isCorrectUserData = false;
-    } else if (isEmpty(password)) {
-      showMessage(false, PASSWORD_INP, PASSWORD_MESSAGE, 'Поле не может быть пустым');
-      isCorrectUserData = false;
-    } else if (isEmpty(passwordRepeated)) {
-      showMessage(false, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE, 'Поле не может быть пустым');
-      isCorrectUserData = false;
+
+
+
+    if (isEmpty(regPasswordValue)) {
+      regPasswordInput.classList.toggle('is-invalid');
+      regPasswordResponse.innerText = 'Поле не может быть пустым';
+      if (isEmpty(regPasswordRepeatedValue)) {
+        regPasswordRepeatedInput.classList.toggle('is-invalid');
+        regPasswordRepeatedResponse.innerText = 'Поле не может быть пустым';
+      }
+      setTimeout(() => {
+        passwordInput.classList.toggle('is-invalid')
+        if (isEmpty(regPasswordRepeatedValue)) {
+          regPasswordRepeatedInput.classList.toggle('is-invalid');
+        }
+      }, 3000);
+      return;
+    }
+
+
+
+
+    if (regPasswordValue !== regPasswordRepeatedValue) {
+      regPasswordInput.classList.toggle('is-invalid');
+      regPasswordResponse.innerText = 'Пароли не совпадают';
+      regPasswordRepeatedInput.classList.toggle('is-invalid');
+      regPasswordRepeatedResponse.innerText = 'Пароли не совпадают';
+      setTimeout(() => {
+        passwordInput.classList.toggle('is-invalid');
+        regPasswordRepeatedInput.classList.toggle('is-invalid');
+      }, 3000);
+      return;
     } else {
-      showMessage(true, REPEATED_PASSWORD_INP, REPEATED_PASSWORD_MESSAGE);
+      isInvalidData = false;
     }
-    
 
-    if (isCorrectUserData) {
-      google.script.run
-        .withSuccessHandler(showConfirmationField)
-        .registerProcessor({mode: 1, email: email, password: password});
+
+    if (isInvalidData) {
+      return;
     }
+
+    console.log('Отправляю данные на сервер...');
+
+
+
+    authData.password = regPasswordValue;
+
+
+
+    google.script.run.withSuccessHandler(showConfirmationField).registerProcessor(authData);
+
 
   }
-
-
-
-
-
-  // TODO: сделать проверку на дубликаты email
-  // function returnExistEmail(email, response) {
-  //   if (response == undefined) {
-
-  //   }
-  //   if (response != undefined) {
-  //     return response
-  //   }
-  // }
 
 
 
@@ -77,8 +148,16 @@
       // let modalBody = document.getElementById('modalBody');
       // modalBody.innerHTML = '';
       console.log(response.errorMessage)
-      return
+      let regEmailInput = document.getElementById('registrationEmail');
+      let regEmailResponse = document.getElementById('invalidRegEmailMessage');
+      regEmailInput.classList.toggle('is-invalid');
+      regEmailResponse.innerText = response.errorMessage;
+      setTimeout(() => {
+        regEmailInput.classList.toggle('is-invalid');
+      }, 3000);
+      return;
     }
+
     const REGISTRATION_FORM = document.getElementById('registrationForm');
     const CONFIRMATION_FORM = document.getElementById('confirmCodeForm');
     REGISTRATION_FORM.classList.toggle('hidden');
@@ -90,12 +169,27 @@
 
   // функция для отображения поля ввода кода подтверждения
   function startConfirmation() {
+
+    let confirmCodeInput = document.getElementById('confirmCodeInput');
+    let invalidConfirmCodeMessage = document.getElementById('invalidConfirmCodeMessage');
+    let confirmCode = confirmCodeInput.value.trim();
+
+    if (isEmpty(confirmCode)) {
+      confirmCodeInput.classList.toggle('is-invalid');
+      invalidConfirmCodeMessage.innerText = 'Поле не может быть пустым';
+      setTimeout(() => {
+        confirmCodeInput.classList.toggle('is-invalid');
+      }, 3000);
+      return;
+    }
+
     let confirmCodeForm = document.getElementById('confirmCodeForm');
     let spinner = document.getElementById('confirmSpinner');
     confirmCodeForm.classList.toggle('hidden');
     spinner.classList.toggle('hidden');
-    let confirmCode = document.getElementById('confirmCodeInput').value.trim();
-    google.script.run.withSuccessHandler(finishConfirmation).registerProcessor({mode: 2, userConfirmationCode: confirmCode});
+
+
+    google.script.run.withSuccessHandler(finishConfirmation).registerProcessor({ mode: 'checkConfirmationCode', userConfirmationCode: confirmCode });
   }
 
 
@@ -105,11 +199,15 @@
     if (!response.success) {
       document.getElementById('confirmCodeForm').classList.toggle('hidden');
       document.getElementById('confirmCodeInput').classList.toggle('is-invalid');
+      document.getElementById('invalidConfirmCodeMessage').innerText = response.errorMessage;
+      setTimeout(() => {
+        confirmCodeInput.classList.toggle('is-invalid');
+      }, 3000);
       document.getElementById('confirmSpinner').classList.toggle('hidden');
-      return
+      return;
     }
     document.getElementById('successTitle').classList.toggle('hidden');
-    google.script.run.withSuccessHandler(prosessRedirect).registerProcessor({mode: 3});
+    google.script.run.withSuccessHandler(prosessRedirect).registerProcessor({ mode: 'finishRegister' });
   }
 
 </script>
